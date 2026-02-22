@@ -17,6 +17,8 @@ services:
         dns:
             - 8.8.8.8
             - 1.1.1.1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
 #    pgdb:
 #        container_name: pgdb
@@ -40,7 +42,7 @@ services:
         restart: unless-stopped
         ports:
             - ${NGINX_PORT}
-            - "443:443"
+#            - "443:443"
         volumes:
             - .:/var/www
             - ./docker/nginx:/etc/nginx/conf.d
@@ -73,8 +75,8 @@ services:
         image: redis:latest
         container_name: redis
         restart: always
-        ports:
-            - ${REDIS_PORT}
+#        ports:
+#            - ${REDIS_PORT}
         environment:
             - REDIS_PASSWORD=${REDIS_PASSWORD}
         command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
@@ -122,6 +124,8 @@ services:
         dns:
             - 8.8.8.8
             - 1.1.1.1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
     node:
         build: ./docker/node
