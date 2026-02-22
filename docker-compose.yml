@@ -4,9 +4,9 @@ services:
         container_name: pet
         user: root
         depends_on:
-            - pgdb
+#            - pgdb
             - redis
-            - loki
+#            - loki
         env_file:
             - .env
         working_dir: /var/www/
@@ -18,21 +18,21 @@ services:
             - 8.8.8.8
             - 1.1.1.1
 
-    pgdb:
-        container_name: pgdb
-        image: postgres
-        tty: true
-        restart: always
-        environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-        ports:
-            - ${PGDB_PORT}
-        volumes:
-            - pgdata:/var/lib/postgresql
-        networks:
-            - pet
+#    pgdb:
+#        container_name: pgdb
+#        image: postgres
+#        tty: true
+#        restart: always
+#        environment:
+#            - POSTGRES_DB=${DB_DATABASE}
+#            - POSTGRES_USER=${DB_USERNAME}
+#            - POSTGRES_PASSWORD=${DB_PASSWORD}
+#        ports:
+#            - ${PGDB_PORT}
+#        volumes:
+#            - pgdata:/var/lib/postgresql
+#        networks:
+#            - pet
 
     nginx:
         image: nginx:latest
@@ -49,25 +49,25 @@ services:
         environment:
             - TZ=${SYSTEM_TIMEZONE}
         depends_on:
-            - pgdb
+#            - pgdb
             - app
-            - pgadmin
+#            - pgadmin
         networks:
             - pet
 
-    pgadmin:
-        image: dpage/pgadmin4:latest
-        container_name: pgadmin
-        restart: always
-        depends_on:
-            - pgdb
-        environment:
-            - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
-            - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
-        ports:
-            - ${PGADMIN_PORT}
-        networks:
-            - pet
+#    pgadmin:
+#        image: dpage/pgadmin4:latest
+#        container_name: pgadmin
+#        restart: always
+#        depends_on:
+#            - pgdb
+#        environment:
+#            - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+#            - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+#        ports:
+#            - ${PGADMIN_PORT}
+#        networks:
+#            - pet
 
     redis:
         image: redis:latest
@@ -81,28 +81,28 @@ services:
         networks:
             - pet
 
-    redisinsight:
-        image: redislabs/redisinsight:latest
-        container_name: redisinsight
-        ports:
-            - ${REDISINSIGHT_PORT}
-        volumes:
-            - ./docker/redisinsight:/db
-        restart: always
-        networks:
-            - pet
+#    redisinsight:
+#        image: redislabs/redisinsight:latest
+#        container_name: redisinsight
+#        ports:
+#            - ${REDISINSIGHT_PORT}
+#        volumes:
+#            - ./docker/redisinsight:/db
+#        restart: always
+#        networks:
+#            - pet
 
-    grafana:
-        image: grafana/grafana:latest
-        container_name: grafana
-        user: "472"
-        environment:
-            GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
-            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
-        depends_on:
-            - loki
-        networks:
-            - pet
+#    grafana:
+#        image: grafana/grafana:latest
+#        container_name: grafana
+#        user: "472"
+#        environment:
+#            GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
+#            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+#        depends_on:
+#            - loki
+#        networks:
+#            - pet
 
     queue:
         build: .
@@ -138,28 +138,28 @@ services:
         networks:
             - pet
 
-    loki:
-        image: grafana/loki:latest
-        container_name: loki
-        ports:
-            - ${LOKI_PORT}
-        networks:
-            - pet
+#    loki:
+#        image: grafana/loki:latest
+#        container_name: loki
+#        ports:
+#            - ${LOKI_PORT}
+#        networks:
+#            - pet
 
-    promtail:
-        image: grafana/promtail:2.9.1
-        container_name: promtail
-        volumes:
-            - ./docker/promtail/promtail-config.yaml:/etc/promtail/config.yml
-            - ./docker/nginx/logs:/var/log/nginx
-        command: -config.file=/etc/promtail/config.yml
-        depends_on:
-            - loki
-        networks:
-            - pet
+#    promtail:
+#        image: grafana/promtail:2.9.1
+#        container_name: promtail
+#        volumes:
+#            - ./docker/promtail/promtail-config.yaml:/etc/promtail/config.yml
+#            - ./docker/nginx/logs:/var/log/nginx
+#        command: -config.file=/etc/promtail/config.yml
+#        depends_on:
+#            - loki
+#        networks:
+#            - pet
 
-volumes:
-    pgdata:
+# volumes:
+#    pgdata:
 networks:
     pet:
         driver: bridge
