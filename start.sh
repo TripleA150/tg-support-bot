@@ -51,7 +51,7 @@ PROJECT_GROUP="www-data"
 run_step "sudo chown -R $PROJECT_USER:$PROJECT_GROUP ." "Назначение владельца $PROJECT_USER:$PROJECT_GROUP для всех файлов проекта"
 
 # Конфигурация Nginx
-run_step "sed 's|__MAIN_DOMAIN__|$MAIN_DOMAIN|g' docker/nginx/default.conf.template > docker/nginx/default.conf" "Создание конфигурации Nginx"
+run_step "sed -e 's|__MAIN_DOMAIN__|$MAIN_DOMAIN|g' -e 's|__SSL_FOLDER__|$SSL_FOLDER|g' docker/nginx/default.conf.template > docker/nginx/default.conf" "Создание конфигурации Nginx"
 
 # Запуск Docker Compose
 run_step "docker compose build" "Запуск Docker Compose"
