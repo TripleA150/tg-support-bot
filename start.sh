@@ -99,9 +99,9 @@ run_step "docker compose down" "Отключение сервисов"
 run_step "docker compose up -d" "Перезапуск сервисов"
 
 # Исправление прав для Grafana
-echo "🔧 Проверка и исправление прав доступа к ./docker/grafana..."
-docker compose logs grafana 2>&1 | grep -q "GF_PATHS_DATA='/var/lib/grafana' is not writable" && \
-run_step "sudo chown -R 472:472 ./docker/grafana" "Исправление прав для Grafana (472:472)"
-echo "✅ Права Grafana проверены и исправлены при необходимости"
+# echo "🔧 Проверка и исправление прав доступа к ./docker/grafana..."
+# docker compose logs grafana 2>&1 | grep -q "GF_PATHS_DATA='/var/lib/grafana' is not writable" && \
+# run_step "sudo chown -R 472:472 ./docker/grafana" "Исправление прав для Grafana (472:472)"
+# echo "✅ Права Grafana проверены и исправлены при необходимости"
 
 echo "✅ Скрипт выполнен успешно!"
