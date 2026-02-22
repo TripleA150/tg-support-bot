@@ -74,53 +74,53 @@ server {
 # GRAFANA
 ##############################################
 
-server {
-    listen 80;
-    server_name grafana.__MAIN_DOMAIN__;
-    return 301 https://$host$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name grafana.__MAIN_DOMAIN__;
-
-    ssl_certificate     /etc/letsencrypt/live/grafana.__MAIN_DOMAIN__/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/grafana.__MAIN_DOMAIN__/privkey.pem;
-
-    location / {
-        proxy_pass http://grafana:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
+# server {
+#     listen 80;
+#     server_name grafana.__MAIN_DOMAIN__;
+#     return 301 https://$host$request_uri;
+# }
+# 
+# server {
+#     listen 443 ssl;
+#     server_name grafana.__MAIN_DOMAIN__;
+# 
+#     ssl_certificate     /etc/letsencrypt/live/grafana.__MAIN_DOMAIN__/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/grafana.__MAIN_DOMAIN__/privkey.pem;
+# 
+#     location / {
+#         proxy_pass http://grafana:3000;
+#         proxy_set_header Host $host;
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#         proxy_set_header X-Forwarded-Proto $scheme;
+#     }
+# }
 
 ##############################################
 # PGADMIN
 ##############################################
 
-server {
-    listen 80;
-    server_name pgadmin.__MAIN_DOMAIN__;
-    return 301 https://$host$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name pgadmin.__MAIN_DOMAIN__;
-
-    ssl_certificate     /etc/letsencrypt/live/pgadmin.__MAIN_DOMAIN__/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/pgadmin.__MAIN_DOMAIN__/privkey.pem;
-
-    location / {
-        proxy_pass http://pgadmin:80;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
+# server {
+#     listen 80;
+#     server_name pgadmin.__MAIN_DOMAIN__;
+#     return 301 https://$host$request_uri;
+# }
+# 
+# server {
+#     listen 443 ssl;
+#     server_name pgadmin.__MAIN_DOMAIN__;
+# 
+#     ssl_certificate     /etc/letsencrypt/live/pgadmin.__MAIN_DOMAIN__/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/pgadmin.__MAIN_DOMAIN__/privkey.pem;
+# 
+#     location / {
+#         proxy_pass http://pgadmin:80;
+#         proxy_set_header Host $host;
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#         proxy_set_header X-Forwarded-Proto $scheme;
+#     }
+# }
 
 ##############################################
 # NODE.JS
