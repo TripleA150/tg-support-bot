@@ -8,8 +8,8 @@ server {
     listen 443 ssl;
     server_name __MAIN_DOMAIN__;
 
-    ssl_certificate     /etc/letsencrypt/__MAIN_DOMAIN__/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/__MAIN_DOMAIN__/key.key;
+    ssl_certificate     /etc/letsencrypt/__SSL_FOLDER__/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/__SSL_FOLDER__/key.key;
 
     client_max_body_size 60M;
 
@@ -110,8 +110,8 @@ server {
 #     listen 443 ssl;
 #     server_name pgadmin.__MAIN_DOMAIN__;
 # 
-#     ssl_certificate     /etc/letsencrypt/pgadmin.__MAIN_DOMAIN__/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/pgadmin.__MAIN_DOMAIN__/key.key;
+#     ssl_certificate     /etc/letsencrypt/pgadmin.__SSL_FOLDER__/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/pgadmin.__SSL_FOLDER__/key.key;
 # 
 #     location / {
 #         proxy_pass http://pgadmin:80;
@@ -138,8 +138,8 @@ server {
     listen 443 ssl;
     server_name node.__MAIN_DOMAIN__;
 
-    ssl_certificate     /etc/letsencrypt/node.__MAIN_DOMAIN__/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/node.__MAIN_DOMAIN__/key.key;
+    ssl_certificate     /etc/letsencrypt/node.__SSL_FOLDER__/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/node.__SSL_FOLDER__/key.key;
 
     client_max_body_size 60M;
 
