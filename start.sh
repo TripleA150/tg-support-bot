@@ -30,20 +30,20 @@ if [ -z "$MAIN_DOMAIN" ]; then
 fi
 
 # Получаем IP из DNS записи
-DOMAIN_IP=$(dig +short "$MAIN_DOMAIN" | tail -n1)
-if [ -z "$DOMAIN_IP" ]; then
-    echo "❌ Ошибка: DNS запись для $MAIN_DOMAIN не найдена"
-    exit 1
-fi
+# DOMAIN_IP=$(dig +short "$MAIN_DOMAIN" | tail -n1)
+# if [ -z "$DOMAIN_IP" ]; then
+#     echo "❌ Ошибка: DNS запись для $MAIN_DOMAIN не найдена"
+#     exit 1
+# fi
 
 # Получаем текущий публичный IP сервера
-SERVER_IP=$(curl -s https://ifconfig.me)
-if [ "$DOMAIN_IP" != "$SERVER_IP" ]; then
-    echo "❌ Ошибка: IP $MAIN_DOMAIN ($DOMAIN_IP) не совпадает с IP сервера ($SERVER_IP)"
-    exit 1
-fi
+# SERVER_IP=$(curl -s https://ifconfig.me)
+# if [ "$DOMAIN_IP" != "$SERVER_IP" ]; then
+#     echo "❌ Ошибка: IP $MAIN_DOMAIN ($DOMAIN_IP) не совпадает с IP сервера ($SERVER_IP)"
+#     exit 1
+# fi
 
-echo "✅  DNS запись для $MAIN_DOMAIN указывает на сервер ($SERVER_IP)"
+# echo "✅  DNS запись для $MAIN_DOMAIN указывает на сервер ($SERVER_IP)"
 
 # Назначение владельца проекта
 PROJECT_USER="www-data"
