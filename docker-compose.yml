@@ -2,15 +2,9 @@ services:
     app:
         build: .
         container_name: pet
-        # Пользователь НЕ переопределяется: из Dockerfile наследуется www-data
-        # (uid 33) — тот же, под которым работают php-fpm воркеры, queue и
-        # scheduler. Раньше здесь стоял `user: root`, из-за чего
-        # `docker exec pet composer install` создавал vendor/ и
-        # bootstrap/cache/*.php от root, и www-data потом не мог их перезаписать.
-        # Каталоги на хосте должны принадлежать uid 33 — см. README, «Установка».
         restart: always
         depends_on:
-            - pgdb
+#            - pgdb
         env_file:
             - .env
         working_dir: /var/www/
@@ -21,22 +15,24 @@ services:
         dns:
             - 8.8.8.8
             - 1.1.1.1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
-    pgdb:
-        container_name: pgdb
-        image: postgres
-        tty: true
-        restart: always
-        environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-        ports:
-            - ${PGDB_PORT}
-        volumes:
-            - pgdata:/var/lib/postgresql
-        networks:
-            - pet
+#    pgdb:
+#        container_name: pgdb
+#        image: postgres
+#        tty: true
+#        restart: always
+#        environment:
+#            - POSTGRES_DB=${DB_DATABASE}
+#            - POSTGRES_USER=${DB_USERNAME}
+#            - POSTGRES_PASSWORD=${DB_PASSWORD}
+#        ports:
+#            - ${PGDB_PORT}
+#        volumes:
+#            - pgdata:/var/lib/postgresql
+#        networks:
+#            - pet
 
     nginx:
         image: nginx:latest
@@ -44,16 +40,16 @@ services:
         restart: unless-stopped
         ports:
             - ${NGINX_PORT}
-            - "443:443"
+#            - "443:443"
         volumes:
             - .:/var/www
             - ./docker/nginx:/etc/nginx/conf.d
-            - /etc/letsencrypt:/etc/letsencrypt:ro
+            - /etc/nginx/site_certs:/etc/letsencrypt:ro
             - ./docker/nginx/logs:/var/log/nginx
         environment:
             - TZ=${SYSTEM_TIMEZONE}
         depends_on:
-            - pgdb
+#            - pgdb
             - app
         networks:
             - pet
@@ -67,8 +63,6 @@ services:
         env_file:
             - .env
         environment:
-            # Tells docker/scripts/entrypoint.sh to wait for the `app`
-            # container's composer/npm install instead of racing it.
             - CONTAINER_ROLE=worker
         working_dir: /var/www
         volumes:
@@ -79,6 +73,8 @@ services:
         dns:
             - 8.8.8.8
             - 1.1.1.1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
     scheduler:
         build: .
@@ -89,8 +85,6 @@ services:
         env_file:
             - .env
         environment:
-            # Tells docker/scripts/entrypoint.sh to wait for the `app`
-            # container's composer/npm install instead of racing it.
             - CONTAINER_ROLE=worker
         working_dir: /var/www
         volumes:

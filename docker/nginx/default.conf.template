@@ -1,15 +1,12 @@
+# server {
+#     listen 80;
+#     server_name __MAIN_DOMAIN__ www.__MAIN_DOMAIN__;
+#     return 301 https://$host$request_uri;
+# }
+
 server {
     listen 80;
-    server_name __MAIN_DOMAIN__ www.__MAIN_DOMAIN__;
-    return 301 https://$host$request_uri;
-}
-
-server {
-    listen 443 ssl;
     server_name __MAIN_DOMAIN__;
-
-    ssl_certificate     /etc/letsencrypt/live/__MAIN_DOMAIN__/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/__MAIN_DOMAIN__/privkey.pem;
 
     client_max_body_size 60M;
 
