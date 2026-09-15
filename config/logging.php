@@ -55,10 +55,10 @@ return [
     'channels' => [
 
         'telegram' => [
-            'driver' => 'monolog',
-            'handler' => ProgTime\TgLogger\TgHandler::class,
-            'formatter' => ProgTime\TgLogger\TgFormatter::class,
-            'level' => 'debug',
+            'driver' => 'daily',
+            'path' => storage_path('logs/telegram.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
         ],
 
         'stack' => [
