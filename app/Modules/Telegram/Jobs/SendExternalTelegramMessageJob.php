@@ -96,6 +96,7 @@ class SendExternalTelegramMessageJob extends AbstractSendMessageJob
                     null,
                     true
                 );
+                unset($params['uploaded_file_path']); 
             }
 
             $response = $telegramMethods->sendQueryTelegram(
