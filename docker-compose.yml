@@ -3,7 +3,7 @@ services:
         build: .
         container_name: pet
         restart: always
-        depends_on:
+#        depends_on:
 #            - pgdb
         env_file:
             - .env
