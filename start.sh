@@ -53,8 +53,11 @@ run_step "sudo chown -R $PROJECT_USER:$PROJECT_GROUP ." "Назначение в
 # Конфигурация Nginx
 run_step "sed -e 's|__MAIN_DOMAIN__|$MAIN_DOMAIN|g' -e 's|__SSL_FOLDER__|$SSL_FOLDER|g' docker/nginx/default.conf.template > docker/nginx/default.conf" "Создание конфигурации Nginx"
 
+# Сборка Docker Compose
+run_step "docker compose build --pull --no-cache" "Сборка Docker Compose"
+
 # Запуск Docker Compose
-run_step "docker compose up -d --build --pull --no-cache" "Запуск Docker Compose"
+run_step "docker compose up -d" "Запуск Docker Compose"
 
 # Обновление зависимостей Composer
 run_step "docker compose exec app bash -c 'composer update'" "Обновление зависимостей PHP через Composer"
